@@ -5,8 +5,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
 
@@ -18,7 +18,7 @@ public class DemoApplication implements CommandLineRunner {
     }
 
     @Autowired
-	private MyEntityRepository myEntityRepository;
+    private MyEntityRepository myEntityRepository;
 
     @Bean
     public DataSource dataSource() {
@@ -34,10 +34,15 @@ public class DemoApplication implements CommandLineRunner {
         return dataSource;
     }
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @Override
     public void run(String... args) throws Exception {
         var entity = new MyEntity(1L, new double[]{1.0, 2.0, 4.0});
-
         myEntityRepository.save(entity);
+
+        // workaround: 
+//        jdbcTemplate.update("INSERT INTO myentity (id, \"values\") VALUES (?, ?)", entity.getId(), entity.getValues());
     }
 }

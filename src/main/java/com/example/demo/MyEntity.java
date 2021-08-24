@@ -13,4 +13,12 @@ public class MyEntity {
         this.id = id;
         this.values = values;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public double[] getValues() {
+        return values;
+    }
 }
